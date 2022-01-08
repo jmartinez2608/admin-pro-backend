@@ -29,7 +29,7 @@ const UsuarioSchema = Schema ({
         default: false
     },
 
-});
+},{ collection: 'usuarios' })
 
 
 UsuarioSchema.method('toJSON', function(){
