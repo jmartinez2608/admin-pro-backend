@@ -52,23 +52,25 @@ const actualizarHospital = async(req, res = response) =>{
 
     //ToDo: Validar token y comprobar si es el usuario correcto
 
-    const uid = req.params.id;
+    const id  = req.params.id;
+    const uid = req.uid; //Cuando nos logueamos se tiene el uid del usuario
     
     try{
 
-       /* const hospitalBD = await Hospital.findById(uid);
+        const hospitalBD = await Hospital.findById(id);
 
         if( !hospitalBD ){
             res.status(404).json({
                 ok: false,
-                msg: 'No existe usuario por ese ID'    
+                msg: 'No existe hospital por ese ID'    
             });
         }
 
         //Actualizaciones
-        const { nombre, img, usuario,  ...campos}  = req.body;
+        const {  uid,  ...campos}  = req.body;
 
-        if( hospitalBD.nombre !== nombre ){            
+
+        /*if( hospitalBD.nombre !== nombre ){            
             const existeNombre = await Usuario.findOne({ nombre });
             if( existeNombre ){
                 return res.status(400).json({
@@ -76,18 +78,14 @@ const actualizarHospital = async(req, res = response) =>{
                     msg: 'Ya existe hospital con ese nombre'    
                 });
             }
-        }
+        }*/
 
-        campos.email = email;
-
-        const hospitalActualizado = await Hospital.findByIdAndUpdate(uid, campos, {new: true});
-
-        */
+        const hospitalActualizado = await Hospital.findByIdAndUpdate(id, campos, {new: true});
 
         res.json({
             ok: true,
-            msg: 'hospital actualizado'
-            //hospital: hospitalActualizado
+            msg: 'hospital actualizado',
+            hospital: hospitalActualizado
         });
 
 
@@ -95,7 +93,7 @@ const actualizarHospital = async(req, res = response) =>{
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'Error inesperado .... revisar lógica'
+            msg: 'Error inesperado .... revisar lógica del update'
 
         });
 
@@ -109,16 +107,16 @@ const borrarHospital = async(req, res = response) =>{
     const uid = req.params.id;
     try{
 
-       /* const hospitalBD = await Hospital.findById(uid);
+       const hospitalBD = await Hospital.findById(uid);
 
         if( !hospitalBD ){
             res.status(404).json({
                 ok: false,
-                msg: 'No existe usuario por ese ID'    
+                msg: 'No existe hospital por ese ID'    
             });
         }
 
-        await Hospital.findByIdAndDelete(uid);*/
+        await Hospital.findByIdAndDelete(uid);
 
         res.json({
             ok: true,

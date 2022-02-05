@@ -66,11 +66,13 @@ const actualizarMedico = async(req, res = response) =>{
 
     //ToDo: Validar token y comprobar si es el usuario correcto
 
-    const uid = req.params.id;
+    const id = req.params.id;    
+    const uid = req.uid;
+    const nombre = req.nombre;
     
     try{
 
-       /* const medicoBD = await Medico.findById(uid);
+        const medicoBD = await Medico.findById(id);
 
         if( !medicoBD ){
             res.status(404).json({
@@ -78,11 +80,13 @@ const actualizarMedico = async(req, res = response) =>{
                 msg: 'No existe medico por ese ID'    
             });
         }
+        
 
-        //Actualizaciones
-        const { nombre, img, usuario,  ...campos}  = req.body;
+        //Actualizaciones        
+        const { nombre, hospital, uid, ...campos}  = req.body;
+        
 
-        if( medicoBD.nombre !== nombre ){            
+       /* if( medicoBD.nombre !== nombre ){            
             const existeNombre = await Medico.findOne({ nombre });
             if( existeNombre ){
                 return res.status(400).json({
@@ -90,18 +94,15 @@ const actualizarMedico = async(req, res = response) =>{
                     msg: 'Ya existe medico con ese nombre'    
                 });
             }
-        }
+        }       */
 
-        campos.email = email;
+        const medicoActualizado = await Medico.findByIdAndUpdate(id, campos, {new: true});
 
-        const hospitalActualizado = await Hospital.findByIdAndUpdate(uid, campos, {new: true});
-
-        */
 
         res.json({
             ok: true,
-            msg: 'medico actualizado'
-            //hospital: hospitalActualizado
+            msg: 'medico actualizado',
+            medico: medicoActualizado
         });
 
 
@@ -120,10 +121,10 @@ const actualizarMedico = async(req, res = response) =>{
 
 const borrarMedico = async(req, res = response) =>{
 
-    const uid = req.params.id;
+    const id = req.params.id;
     try{
 
-       /* const medicoBD = await Medico.findById(uid);
+        const medicoBD = await Medico.findById(id);
 
         if( !medicoBD ){
             res.status(404).json({
@@ -132,7 +133,7 @@ const borrarMedico = async(req, res = response) =>{
             });
         }
 
-        await Medico.findByIdAndDelete(uid);*/
+        await Medico.findByIdAndDelete(id);
 
         res.json({
             ok: true,
